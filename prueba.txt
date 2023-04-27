@@ -1,0 +1,34 @@
+import itertools
+
+# Abrir archivo de entrada
+with open("entrada.txt", "r") as f:
+    # Leer las tres primeras líneas
+    A = int(f.readline().strip())
+    B = float(f.readline().strip())
+    n = int(f.readline().strip())
+
+    # Leer las ofertas de los compradores y la oferta del gobierno
+    ofertas = []
+    ofertas_validas = []
+    descartadas = 0
+    for i in range(n):
+        p, c, r = map(float, f.readline().strip().split(","))
+        if p >= B and 0 < c <= A and 0 <= r <= c:
+            # Si la oferta cumple con las condiciones, se agrega a la lista
+            oferta = (p, int(c), int(r))
+            ofertas_validas.append(oferta)
+        else:
+            # Si la oferta no cumple con las condiciones, se cuenta como descartada
+            descartadas += 1
+    p_gob, c_gob, r_gob = map(float, f.readline().strip().split(","))
+    gobierno = (p_gob, int(c_gob), int(r_gob))
+
+# Agregar la oferta del gobierno a la lista de ofertas válidas
+ofertas_validas.append(gobierno)
+
+# Escribir el resultado en el archivo de salida
+with open("salida.txt", "w") as f:
+    for oferta in ofertas_validas:
+        p, c, r = oferta
+        f.write(f"{p},{c},{r}\n")
+    f.write(f"Numero de ofertas descartadas: {descartadas}\n")
